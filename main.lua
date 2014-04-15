@@ -17,6 +17,31 @@ total_pieces = 0
 pieces = {}
 board = {}
 
+
+
+
+--board[1] = {{0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+-- 			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+-- 			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
+--
+--
 --start of functions
 function constructBoard()
   for i = 1, height do
@@ -98,10 +123,10 @@ function unassignPiece(unPiece)
 end
 
 function assignPiece(asPiece)
-	board[asPiece["sub1x"] + asPiece["boardx"]][asPiece["sub1y"] + asPiece["boardy"]] = 1
-	board[asPiece["sub2x"] + asPiece["boardx"]][asPiece["sub2y"] + asPiece["boardy"]] = 1
-	board[asPiece["sub3x"] + asPiece["boardx"]][asPiece["sub3y"] + asPiece["boardy"]] = 1
-	board[asPiece["sub4x"] + asPiece["boardx"]][asPiece["sub4y"] + asPiece["boardy"]] = 1
+	--board[asPiece["sub1x"] + asPiece["boardx"]][asPiece["sub1y"] + asPiece["boardy"]] = 1
+	--board[asPiece["sub2x"] + asPiece["boardx"]][asPiece["sub2y"] + asPiece["boardy"]] = 1
+	--board[asPiece["sub3x"] + asPiece["boardx"]][asPiece["sub3y"] + asPiece["boardy"]] = 1
+	--board[asPiece["sub4x"] + asPiece["boardx"]][asPiece["sub4y"] + asPiece["boardy"]] = 1
 
 end
 
@@ -136,7 +161,7 @@ local squares = display.newGroup()
 board = constructBoard()
 thePiece = createPiece("i")
 local myText = display.newText(thePiece["boardx"], 100, 0, native.systemFont, 16 )
-assignPiece(thePiece)
+--assignPiece(thePiece)
 --displayPieces()
 
 --local something = display.newRect(squares, (thePiece["boardx"] + thePiece["sub1x"]) * 21, (thePiece["boardy"] + thePiece["sub1y"]) * 10, total_width / 22, total_height / 10)
@@ -164,13 +189,42 @@ timer.performWithDelay(2000, listener, 1)
 --need a game loop even just basic while loop accept inputs maybe
 --and then redisplay
 
+local Main = {}
+
+local background = ('tetris_background.png')
+local menuScreen
+local startButton
+local mScreen
+
+local addMenuScreen = {}
+local tweenMS = {}
+
+function Main()
+	addMenuScreen()
+end
+
+function addMenuScreen() 
+	menuScreen = display.newGroup()
+	mScreen = display.newImage('menuScreen2.png')
+	startButton = display.newImage('play_button.png')
+	startButton.name = 'startButton'
+	menuScreen:insert(mScreen)
+	startButton.x = 160
+	startButton.y = 260
+	menuScreen:insert(startButton)
+	startButton:addEventListener('tap', tweenMS)
+end
 
 
 
+function tweenMS:tap(e)
+	if(e.target.name == 'startButton') then
+		transition.to(menuScreen, {time = 300, y = -menuScreen.height, transition = easing.outExpo, onComplete = addGameScreen})
+	end
+end
 
 
-
-
+Main()
 
 --extra code not needed. Leftover from testing. could be good reference.
 
