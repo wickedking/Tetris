@@ -5,7 +5,7 @@
 -----------------------------------------------------------------------------------------
 
 -- 
-local physics = require( "physics" )
+local physics = require( "physics" ) 
 	
 
 --global variables
@@ -90,18 +90,18 @@ function movePieces(thePiece, dx, dy)
 end
 
 function unassignPiece(unPiece)
-	board[unPiece["sub1x"] + unPiece["boardx"][unPiece["sub1y"] + unPiece["boardy"]]] = 0
-	board[unPiece["sub2x"] + unPiece["boardx"][unPiece["sub2y"] + unPiece["boardy"]]] = 0
-	board[unPiece["sub3x"] + unPiece["boardx"][unPiece["sub3y"] + unPiece["boardy"]]] = 0
-	board[unPiece["sub4x"] + unPiece["boardx"][unPiece["sub4y"] + unPiece["boardy"]]] = 0
+	board[unPiece["sub1x"] + unPiece["boardx"]][unPiece["sub1y"] + unPiece["boardy"]] = 0
+	board[unPiece["sub2x"] + unPiece["boardx"]][unPiece["sub2y"] + unPiece["boardy"]] = 0
+	board[unPiece["sub3x"] + unPiece["boardx"]][unPiece["sub3y"] + unPiece["boardy"]] = 0
+	board[unPiece["sub4x"] + unPiece["boardx"]][unPiece["sub4y"] + unPiece["boardy"]] = 0
 
 end
 
 function assignPiece(asPiece)
-	board[asPiece["sub1x"] + asPiece["boardx"][asPiece["sub1y"] + asPiece["boardy"]]] = 1
-	board[asPiece["sub2x"] + asPiece["boardx"][asPiece["sub2y"] + asPiece["boardy"]]] = 1
-	board[asPiece["sub3x"] + asPiece["boardx"][asPiece["sub3y"] + asPiece["boardy"]]] = 1
-	board[asPiece["sub4x"] + asPiece["boardx"][asPiece["sub4y"] + asPiece["boardy"]]] = 1
+	board[asPiece["sub1x"] + asPiece["boardx"]][asPiece["sub1y"] + asPiece["boardy"]] = 1
+	board[asPiece["sub2x"] + asPiece["boardx"]][asPiece["sub2y"] + asPiece["boardy"]] = 1
+	board[asPiece["sub3x"] + asPiece["boardx"]][asPiece["sub3y"] + asPiece["boardy"]] = 1
+	board[asPiece["sub4x"] + asPiece["boardx"]][asPiece["sub4y"] + asPiece["boardy"]] = 1
 
 end
 
@@ -113,7 +113,14 @@ function displayPieces()
 for i = 1, height do
   for j = 1, width do
     if(board[i][j] ~= 0) then
-      local test = display.newRect(squares, 40*i, 40 * j, 40,40)
+      local test = display.newRect(squares, (thePiece["boardx"] + thePiece["sub1x"]) * 21, (thePiece["boardy"] + thePiece["sub1y"]) * 10, total_width / 22, total_height / 10)
+	  local something1 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub2x"]) * 21, (thePiece["boardy"] + thePiece["sub2y"]) * 10, total_width / 22, total_height / 10 )
+	  local something2 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub3x"]) * 21, (thePiece["boardy"] + thePiece["sub3y"]) * 10, total_width / 22, total_height / 10)
+	  local something3 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub4x"]) * 21, (thePiece["boardy"] + thePiece["sub4y"]) * 10, total_width / 22, total_height / 10)
+	  test:setFillColor(1,1,1)
+	  something1:setFillColor(1,1,1)
+	  something2:setFillColor(1,1,1)
+	  something3:setFillColor(1,1,1)
     end
   end
 end
@@ -128,15 +135,18 @@ local squares = display.newGroup()
 
 board = constructBoard()
 thePiece = createPiece("i")
+local myText = display.newText(thePiece["boardx"], 100, 0, native.systemFont, 16 )
+assignPiece(thePiece)
+--displayPieces()
 
-local something = display.newRect(squares, (thePiece["boardx"] + thePiece["sub1x"]) * 21, (thePiece["boardy"] + thePiece["sub1y"]) * 10, total_width / 22, total_height / 10)
-local something1 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub2x"]) * 21, (thePiece["boardy"] + thePiece["sub2y"]) * 10, total_width / 22, total_height / 10 )
-local something2 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub3x"]) * 21, (thePiece["boardy"] + thePiece["sub3y"]) * 10, total_width / 22, total_height / 10)
-local something3 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub4x"]) * 21, (thePiece["boardy"] + thePiece["sub4y"]) * 10, total_width / 22, total_height / 10)
-something:setFillColor(1,1,1)
-something1:setFillColor(1,1,1)
-something2:setFillColor(1,1,1)
-something3:setFillColor(1,1,1)
+--local something = display.newRect(squares, (thePiece["boardx"] + thePiece["sub1x"]) * 21, (thePiece["boardy"] + thePiece["sub1y"]) * 10, total_width / 22, total_height / 10)
+--local something1 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub2x"]) * 21, (thePiece["boardy"] + thePiece["sub2y"]) * 10, total_width / 22, total_height / 10 )
+--local something2 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub3x"]) * 21, (thePiece["boardy"] + thePiece["sub3y"]) * 10, total_width / 22, total_height / 10)
+--local something3 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub4x"]) * 21, (thePiece["boardy"] + thePiece["sub4y"]) * 10, total_width / 22, total_height / 10)
+--something:setFillColor(1,1,1)
+--something1:setFillColor(1,1,1)
+--something2:setFillColor(1,1,1)
+--something3:setFillColor(1,1,1)
 --local myText = display.newText( total_height, 100, 0, native.systemFont, 16 )
 
 local function listener(event)
