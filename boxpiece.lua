@@ -13,7 +13,6 @@ local sub4x
 local sub4y
 local piece_type = "o"
 
-local rotation = {}
 
 function rotation()
 	local sub1x = 1

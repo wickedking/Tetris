@@ -13,7 +13,6 @@ local sub4x
 local sub4y
 local piece_type = "z"
 
-local rotation = {}
 
 function rotation(piece) 
 	if (piece.current_rotation == 1) then

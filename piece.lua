@@ -21,7 +21,7 @@ local boardx
 local boardy
 local num_rotations
 
-local rotate = {}
+--local rotate = {}
 
 function rotate(piece) 
 	if (piece.piece_type == "i") then
