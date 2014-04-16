@@ -16,7 +16,7 @@ local sub4y
 local piece_type = "s"
 
 
-function rotation(piece) 
+function rotation_s(piece) 
 	if (piece.current_rotation == 1) then
 		piece.current_rotation = 2
 		piece.sub1x = 1

@@ -1,13 +1,19 @@
 --piece.lua
 
-local i_piece = require("ipiece");
-local j_piece = require("jpiece");
-local l_piece = require("lpiece");
-local t_piece = require("tpiece");
-local box_piece = require("boxpiece");
-local s_piece = require("spiece");
-local z_piece = require("zpiece");
-
+require("ipiece");
+require("jpiece");
+require("lpiece");
+require("tpiece");
+require("boxpiece");
+require("spiece");
+require("zpiece");
+local i_piece = i_piece;
+local j_piece
+local l_piece
+local t_piece
+local box_piece
+local s_piece
+local z_piece
 local sub1x
 local sub1y
 local sub2x
@@ -43,19 +49,19 @@ end
 
 function rotate(piece) 
 	if (piece.piece_type == "i") then
-		piece = i_piece.rotation(piece)
+		piece = rotation_i(piece)
 	elseif (piece.piece_type == "j") then
-		piece = j_piece.rotation(piece)
+		piece = rotation_j(piece)
 	elseif (piece.piece_type == "l") then
-		piece = l_piece.rotation(piece)
+		piece = rotation_l(piece)
 	elseif (piece.piece_type == "s") then
-		piece = s_piece.rotation(piece)
+		piece = rotation_s(piece)
 	elseif (piece.piece_type == "z") then
-		piece = z_piece.rotation(piece)
+		piece = rotation_z(piece)
 	elseif (piece.piece_type == "t") then
-		piece = t_piece.rotation(piece)
+		piece = rotation_t(piece)
 	elseif (piece.piece_type == "o") then
-		piece = o_piece.rotation(piece)
+		piece = rotation_o(piece)
 	end
 	return piece
 	end

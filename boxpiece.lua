@@ -15,7 +15,7 @@ local piece_type = "o"
 
 
 
-function rotation()
+function rotation_o()
 	local sub1x = 1
 	local sub1y = 1
 	local sub2x = 2
