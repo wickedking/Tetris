@@ -110,8 +110,6 @@ end
 function movePieces(thePiece, dx, dy)
 	thePiece["boardx"] = thePiece["boardx"] + dx
 	thePiece["boardy"] = thePiece["boardy"] + dy
-
-
 end
 
 function unassignPiece(unPiece)
@@ -123,32 +121,31 @@ function unassignPiece(unPiece)
 end
 
 function assignPiece(asPiece)
-	--board[asPiece["sub1x"] + asPiece["boardx"]][asPiece["sub1y"] + asPiece["boardy"]] = 1
-	--board[asPiece["sub2x"] + asPiece["boardx"]][asPiece["sub2y"] + asPiece["boardy"]] = 1
-	--board[asPiece["sub3x"] + asPiece["boardx"]][asPiece["sub3y"] + asPiece["boardy"]] = 1
-	--board[asPiece["sub4x"] + asPiece["boardx"]][asPiece["sub4y"] + asPiece["boardy"]] = 1
-
+	board[asPiece["sub1x"] + asPiece["boardx"]][asPiece["sub1y"] + asPiece["boardy"]] = 1
+	board[asPiece["sub2x"] + asPiece["boardx"]][asPiece["sub2y"] + asPiece["boardy"]] = 1
+	board[asPiece["sub3x"] + asPiece["boardx"]][asPiece["sub3y"] + asPiece["boardy"]] = 1
+	board[asPiece["sub4x"] + asPiece["boardx"]][asPiece["sub4y"] + asPiece["boardy"]] = 1
 end
-
+--185 to the right on width
+--320 to low on the height
 
 function displayPieces()
 --takes the table of pieces and displays them all. usually called every so often or
 --when an action takes place
 --needs to be changed to account for major piece and sub piece
-for i = 1, height do
-  for j = 1, width do
-    if(board[i][j] ~= 0) then
-      local test = display.newRect(squares, (thePiece["boardx"] + thePiece["sub1x"]) * 21, (thePiece["boardy"] + thePiece["sub1y"]) * 10, total_width / 22, total_height / 10)
-	  local something1 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub2x"]) * 21, (thePiece["boardy"] + thePiece["sub2y"]) * 10, total_width / 22, total_height / 10 )
-	  local something2 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub3x"]) * 21, (thePiece["boardy"] + thePiece["sub3y"]) * 10, total_width / 22, total_height / 10)
-	  local something3 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub4x"]) * 21, (thePiece["boardy"] + thePiece["sub4y"]) * 10, total_width / 22, total_height / 10)
-	  test:setFillColor(1,1,1)
-	  something1:setFillColor(1,1,1)
-	  something2:setFillColor(1,1,1)
-	  something3:setFillColor(1,1,1)
+  local shapes = {}
+  for i = 1, height do
+    for j = 1, width do
+	  print(board[i][j].." board"..i.." "..j)
+	  shapes[i ..j.."test"] = display.newRect((i *(total_width / 40)), (j * (total_height / 18)),(total_width / 40), (total_height / 18))
+	  
+      if(board[i][j] ~= 0) then
+		shapes[i..j.."test"]:setFillColor(1,1,1)
+      else
+		shapes[i..j.."test"]:setFillColor(0.5,0.5,0.5)
+		end
     end
   end
-end
 end
 
 
@@ -158,86 +155,59 @@ physics.start()
 --local myText = display.newText( "Tetris", 100, 0, native.systemFont, 16 )
 local squares = display.newGroup()
 
-board = constructBoard()
-thePiece = createPiece("i")
-local myText = display.newText(thePiece["boardx"], 100, 0, native.systemFont, 16 )
---assignPiece(thePiece)
---displayPieces()
-
---local something = display.newRect(squares, (thePiece["boardx"] + thePiece["sub1x"]) * 21, (thePiece["boardy"] + thePiece["sub1y"]) * 10, total_width / 22, total_height / 10)
---local something1 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub2x"]) * 21, (thePiece["boardy"] + thePiece["sub2y"]) * 10, total_width / 22, total_height / 10 )
---local something2 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub3x"]) * 21, (thePiece["boardy"] + thePiece["sub3y"]) * 10, total_width / 22, total_height / 10)
---local something3 = display.newRect(squares, (thePiece["boardx"] + thePiece["sub4x"]) * 21, (thePiece["boardy"] + thePiece["sub4y"]) * 10, total_width / 22, total_height / 10)
---something:setFillColor(1,1,1)
---something1:setFillColor(1,1,1)
---something2:setFillColor(1,1,1)
---something3:setFillColor(1,1,1)
---local myText = display.newText( total_height, 100, 0, native.systemFont, 16 )
+constructBoard()
+currentPiece = createPiece("i")
+assignPiece(currentPiece)
+displayPieces()
 
 local function listener(event)
-   local test = display.newRect(squares, 100, 100, 100, 100)
-   test:setFillColor(1,1,0)
+   --local test = display.newRect(squares, 100, 100, 100, 100)
+   --test:setFillColor(1,1,0)
+   --local myText = display.newText(currentPiece["boardx"], 100, 0, native.systemFont, 16 )
+   canMove(currentPiece, 0,1)
 end
 
 timer.performWithDelay(2000, listener, 1)
-
---local test = display.newRect(squares, 100, 100, 100, 100)
---test:setFillColor(1,1,0)
-
-
 --setcolor
 --need a game loop even just basic while loop accept inputs maybe
 --and then redisplay
 
-local Main = {}
+--Used to display main screen
+--commented out for future use
 
-local background = ('tetris_background.png')
-local menuScreen
-local startButton
-local mScreen
+--local Main = {}
 
-local addMenuScreen = {}
-local tweenMS = {}
+--local background = ('tetris_background.png')
+--local menuScreen
+--local startButton
+--local mScreen
 
-function Main()
-	addMenuScreen()
-end
+--local addMenuScreen = {}
+--local tweenMS = {}
 
-function addMenuScreen() 
-	menuScreen = display.newGroup()
-	mScreen = display.newImage('menuScreen2.png')
-	startButton = display.newImage('play_button.png')
-	startButton.name = 'startButton'
-	menuScreen:insert(mScreen)
-	startButton.x = 160
-	startButton.y = 260
-	menuScreen:insert(startButton)
-	startButton:addEventListener('tap', tweenMS)
-end
+--function Main()
+--	addMenuScreen()
+--end
 
-
-
-function tweenMS:tap(e)
-	if(e.target.name == 'startButton') then
-		transition.to(menuScreen, {time = 300, y = -menuScreen.height, transition = easing.outExpo, onComplete = addGameScreen})
-	end
-end
-
-
-Main()
-
---extra code not needed. Leftover from testing. could be good reference.
+--function addMenuScreen() 
+--	menuScreen = display.newGroup()
+--	mScreen = display.newImage('menuScreen2.png')
+--	startButton = display.newImage('play_button.png')
+--	startButton.name = 'startButton'
+--	menuScreen:insert(mScreen)
+--	startButton.x = 160
+--	startButton.y = 260
+--	menuScreen:insert(startButton)
+--	startButton:addEventListener('tap', tweenMS)
+--end
 
 
 
---local bottomSquare = display.newRect(squares, 40, 400, 40, 40)
---local leftSquare = display.newRect(squares, -10, 5, 40, 1000)
---local rightSquare = display.newRect(squares, 330, 10, 40, 1000)
---rightSquare:setFillColor(0, 1, 0)
---leftSquare:setFillColor(0, 1, 0)
---bottomSquare:setFillColor(0, 1, 0)
+--function tweenMS:tap(e)
+--	if(e.target.name == 'startButton') then
+--		transition.to(menuScreen, {time = 300, y = -menuScreen.height, transition = easing.outExpo, onComplete = addGameScreen})
+--	end
+--end
 
 
---physics.addBody(bottomSquare, "static", {})
---physics.addBody(leftSquare, "static", {})
---physics.addBody(rightSquare, "static", {})
+--Main()
