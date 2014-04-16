@@ -14,6 +14,7 @@ local sub4y
 local piece_type = "o"
 
 
+
 function rotation()
 	local sub1x = 1
 	local sub1y = 1

@@ -18,9 +18,12 @@ total_pieces = 0
 pieces = {}
 board = {}
 nextPiece = {"i", "o", "l", "j", "s", "t", "z"} 
+pieceType = 0
 
-
-
+--constructor for pieces
+--move pieces on inputs
+--fix can move method
+--generate new pieces
 
 --board[1] = {{0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
 --			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
@@ -56,24 +59,11 @@ function constructBoard()
 end		
 
 function createPiece()
-  local piece1 = {}
-  total_pieces = total_pieces + 1 --call to global
-  pieces[total_pieces] = piece1 --call to global
-  piece1["boardx"] = 10 
-  piece1["boardy"] = 2
-  piece1["rotation"] = 0
-  piece1["type"] = theType
-  piece1["sub1x"] = 0
-  piece1["sub1y"] = 0
-  piece1["sub2x"] = 0
-  piece1["sub2y"] = 1
-  piece1["sub3x"] = 0
-  piece1["sub3y"] = 2
-  piece1["sub4x"] = 0
-  piece1["sub4y"] = 3
-  
-  --rotate(piece1)
-
+  pieceType = pieceType + 1
+  if pieceType > 6 then
+	pieceType = 0
+  end
+  piece1 = construct(nextPiece[pieceType])
 return piece1
 
 end
@@ -88,10 +78,10 @@ end
 function canMove(canPiece, dx, dy)
 	local pieceCanMove = false
 	unassignPiece(canPiece)
-	if board[canPiece["sub1x"] + dx][canPiece["sub1y"] + dy] == 0 then
-		if board[canPiece["sub2x"] + dx][canPiece["sub2y"] + dy] == 0 then
-			if board[canPiece["sub3x"] + dx][canPiece["sub3y"] + dy] == 0 then
-				if board[canPiece["sub4x"] + dx][canPiece["sub4y"] + dy] == 0 then
+	if board[canPiece.sub1x + dx][canPiece.sub1y + dy] == 0 then
+		if board[canPiece.sub2x + dx][canPiece.sub2y + dy] == 0 then
+			if board[canPiece.sub3x + dx][canPiece.sub3y + dy] == 0 then
+				if board[canPiece.sub4x + dx][canPiece.sub4y + dy] == 0 then
 					movePieces(canPiece, dx, dy)
 					assignPiece(canPiece)
 					displayPieces()
@@ -111,23 +101,24 @@ function canMove(canPiece, dx, dy)
 end
 
 function movePieces(thePiece, dx, dy)
-	thePiece["boardx"] = thePiece["boardx"] + dx
-	thePiece["boardy"] = thePiece["boardy"] + dy
+	thePiece.boardx = thePiece.boardx + dx
+	thePiece.boardy = thePiece.boardy + dy
 end
 
 function unassignPiece(unPiece)
-	board[unPiece["sub1x"] + unPiece["boardx"]][unPiece["sub1y"] + unPiece["boardy"]] = 0
-	board[unPiece["sub2x"] + unPiece["boardx"]][unPiece["sub2y"] + unPiece["boardy"]] = 0
-	board[unPiece["sub3x"] + unPiece["boardx"]][unPiece["sub3y"] + unPiece["boardy"]] = 0
-	board[unPiece["sub4x"] + unPiece["boardx"]][unPiece["sub4y"] + unPiece["boardy"]] = 0
+	board[unPiece.sub1x + unPiece.boardx][unPiece.sub1y + unPiece.boardy] = 0
+	board[unPiece.sub2x + unPiece.boardx][unPiece.sub2y + unPiece.boardy] = 0
+	board[unPiece.sub3x + unPiece.boardx][unPiece.sub3y + unPiece.boardy] = 0
+	board[unPiece.sub4x + unPiece.boardx][unPiece.sub4y + unPiece.boardy] = 0
 
 end
 
 function assignPiece(asPiece)
-	board[asPiece["sub1x"] + asPiece["boardx"]][asPiece["sub1y"] + asPiece["boardy"]] = 1
-	board[asPiece["sub2x"] + asPiece["boardx"]][asPiece["sub2y"] + asPiece["boardy"]] = 1
-	board[asPiece["sub3x"] + asPiece["boardx"]][asPiece["sub3y"] + asPiece["boardy"]] = 1
-	board[asPiece["sub4x"] + asPiece["boardx"]][asPiece["sub4y"] + asPiece["boardy"]] = 1
+	board[asPiece.sub1x + asPiece.boardx][asPiece.sub1y + asPiece.boardy] = 1
+	board[asPiece.sub2x + asPiece.boardx][asPiece.sub2y + asPiece.boardy] = 1
+	board[asPiece.sub3x + asPiece.boardx][asPiece.sub3y + asPiece.boardy] = 1
+	board[asPiece.sub4x + asPiece.boardx][asPiece.sub4y + asPiece.boardy] = 1
+
 end
 --185 to the right on width
 --320 to low on the height
@@ -167,7 +158,7 @@ local function listener(event)
    --local test = display.newRect(squares, 100, 100, 100, 100)
    --test:setFillColor(1,1,0)
    --local myText = display.newText(currentPiece["boardx"], 100, 0, native.systemFont, 16 )
-   canMove(currentPiece, 0,1)
+   canMove(currentPiece, 1,1)
 end
 
 timer.performWithDelay(2000, listener, 1)
