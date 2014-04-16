@@ -12,18 +12,20 @@ piece = require("piece")
 --global variables
 total_height = display.pixelHeight
 total_width = display.pixelWidth
-height=22
+height = 22
 width = 10
 total_pieces = 0
 pieces = {}
 board = {}
 nextPiece = {"i", "o", "l", "j", "s", "t", "z"} 
 pieceType = 0
+nowPiece = {}
 
---constructor for pieces
 --move pieces on inputs
---fix can move method
---generate new pieces
+--display correctly
+--fix can move method for dx = 0
+--game loop
+--fail method
 
 --board[1] = {{0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
 --			  {0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0},
@@ -58,46 +60,122 @@ function constructBoard()
 
 end		
 
+function rotatePiece()
+
+
+end
+
 function createPiece()
   pieceType = pieceType + 1
   if pieceType > 6 then
 	pieceType = 0
   end
   piece1 = construct(nextPiece[pieceType])
+  nowPiece = piece1
+  piece1 = rotate(piece1)
+  piece1 = rotate(piece1)  
 return piece1
-
 end
-
-function getSubPieceLocation(theType, theRotation)
---by passing in type and rotation, can get the sub piece locations. Will return in a 
---table with certain names and be accessed by caller 
-
-end
-
 
 function canMove(canPiece, dx, dy)
 	local pieceCanMove = false
 	unassignPiece(canPiece)
-	if board[canPiece.sub1x + dx][canPiece.sub1y + dy] == 0 then
-		if board[canPiece.sub2x + dx][canPiece.sub2y + dy] == 0 then
-			if board[canPiece.sub3x + dx][canPiece.sub3y + dy] == 0 then
-				if board[canPiece.sub4x + dx][canPiece.sub4y + dy] == 0 then
-					movePieces(canPiece, dx, dy)
-					assignPiece(canPiece)
-					displayPieces()
-					pieceCanMove = true
+	print(canPiece.sub1x)
+	print(dx)
+	boundsCheck = false
+	returnable = false
+	hitPiece = true
+	if canPiece.sub1x + dx > 0 and canPiece.sub1x + dx < 11 then
+		if canPiece.sub2x + dx > 0 and canPiece.sub1x + dx < 11 then
+			if canPiece.sub3x + dx > 0 and canPiece.sub1x + dx < 11 then
+				if canPiece.sub4x + dx > 0 and canPiece.sub1x + dx < 11 then
+					if canPiece.sub1y + dy > 0 and canPiece.sub1x + dy < 22 then
+						if canPiece.sub2y + dy > 0 and canPiece.sub1x + dy < 22 then
+							if canPiece.sub3y + dy > 0 and canPiece.sub1x + dy < 22 then
+								if canPiece.sub4y + dy > 0 and canPiece.sub1x + dy < 22 then
+									boundsCheck = true
+								end
+							end
+						end
+					end
 				end
 			end
 		end
 	end
-	if pieceCanMove then
+			
+	if boundscheck == true then
+		if board[canPiece.sub1x + dx][canPiece.sub1y + dy] == 0 then
+			if board[canPiece.sub2x + dx][canPiece.sub2y + dy] == 0 then
+				if board[canPiece.sub3x + dx][canPiece.sub3y + dy] == 0 then
+					if board[canPiece.sub4x + dx][canPiece.sub4y + dy] == 0 then
+						movePieces(canPiece, dx, dy)
+						assignPiece(canPiece)
+						displayPieces()
+						pieceCanMove = true
+						hitPiece = false
+					end
+				end
+			end
+		end
+	end
+	if pieceCanMove == false then
 	assignPiece(canPiece)
 	displayPieces()
-	return false
+	returnable = false
+	else
+		if hitPiece then
+		checkRow()
+		createPiece()
+		end
 	end
---will test the piece that is passed and check whether it can move on the board using
---delta x and delta y.
+end
 
+function checkRow(endPiece)
+--will check row to see if deletion is necassary
+	rowDelete = false
+	for i = 1, height do
+		pass = true
+		for j = 1, width do
+			if board[i][j] == 0 then
+				pass = false
+				break
+			end
+		end
+		if pass then
+			deleteRows(i)
+			rowDelete = true
+		end
+	end
+	if rowDelete then
+		moveDown()
+	end
+end
+
+function moveDown()
+--will loop through board and move any remaining piece down
+--if called piece is not current anymore can move it down
+	for i = height, 1 do
+		for j = width, 1 do
+			if board[i][j] == 1 then
+				if j+1 < 23 then
+					if board[i][j+1] == 0 then
+						board[i][j] = 0
+						board[i][j+1] = 1
+					end
+				end
+			end
+		end
+	end
+end
+
+function fail()
+--called when the game is over
+end
+
+function deleteRows(rowNumber)
+	for j = 1, width do
+		board[rowNumber][j] = 0
+	end
 end
 
 function movePieces(thePiece, dx, dy)
@@ -130,9 +208,8 @@ function displayPieces()
   local shapes = {}
   for i = 1, height do
     for j = 1, width do
-	  print(board[i][j].." board"..i.." "..j)
-	  shapes[i ..j.."test"] = display.newRect((i *(total_width / 40)), (j * (total_height / 18)),(total_width / 40), (total_height / 18))
-	  
+	 -- print(board[i][j].." board"..i.." "..j)
+	  shapes[i ..j.."test"] = display.newRect((i-1)*28 + 20 , (j-1) * 22, total_width /10, total_height / 22)
       if(board[i][j] ~= 0) then
 		shapes[i..j.."test"]:setFillColor(1,1,1)
       else
@@ -154,11 +231,12 @@ currentPiece = createPiece("i")
 assignPiece(currentPiece)
 displayPieces()
 
-local function listener(event)
+local function listener(event) 
    --local test = display.newRect(squares, 100, 100, 100, 100)
    --test:setFillColor(1,1,0)
    --local myText = display.newText(currentPiece["boardx"], 100, 0, native.systemFont, 16 )
-   canMove(currentPiece, 1,1)
+   canMove(currentPiece, 20,5)
+   rotate(nowPiece) 
 end
 
 timer.performWithDelay(2000, listener, 1)
