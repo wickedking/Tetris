@@ -27,7 +27,7 @@ function rotation(piece)
 		piece.sub3y = 2
 		piece.sub4x = 2
 		piece.sub4y = 1
-	else if (piece.current_rotation == 2) then
+	elseif (piece.current_rotation == 2) then
 		piece.current_rotation = 3
 		piece.sub1x = 2
 		piece.sub1y = 1
@@ -37,7 +37,7 @@ function rotation(piece)
 		piece.sub3y = 3
 		piece.sub4x = 1
 		piece.sub4y = 2
-	else if (piece.current_rotation == 3) then
+	elseif (piece.current_rotation == 3) then
 		piece.current_rotation = 4
 		piece.sub1x = 1
 		piece.sub1y = 1

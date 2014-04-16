@@ -6,6 +6,7 @@
 
 -- 
 local physics = require( "physics" ) 
+piece = require("piece")
 	
 
 --global variables
@@ -16,6 +17,7 @@ width = 10
 total_pieces = 0
 pieces = {}
 board = {}
+nextPiece = {"i", "o", "l", "j", "s", "t", "z"} 
 
 
 
@@ -53,7 +55,7 @@ function constructBoard()
 
 end		
 
-function createPiece(theType)
+function createPiece()
   local piece1 = {}
   total_pieces = total_pieces + 1 --call to global
   pieces[total_pieces] = piece1 --call to global
@@ -61,7 +63,6 @@ function createPiece(theType)
   piece1["boardy"] = 2
   piece1["rotation"] = 0
   piece1["type"] = theType
-  --subPieces = getSubPieceLocation(theType, 0)
   piece1["sub1x"] = 0
   piece1["sub1y"] = 0
   piece1["sub2x"] = 0
@@ -70,6 +71,8 @@ function createPiece(theType)
   piece1["sub3y"] = 2
   piece1["sub4x"] = 0
   piece1["sub4y"] = 3
+  
+  --rotate(piece1)
 
 return piece1
 
