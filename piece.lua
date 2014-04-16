@@ -21,7 +21,25 @@ local boardx
 local boardy
 local num_rotations
 
---local rotate = {}
+function construct(theType)
+ new_piece = {} 
+ new_piece["sub1x"] = 0
+ new_piece["sub2x"] = 0
+ new_piece["sub3x"] = 0
+ new_piece["sub4x"] = 0
+ new_piece["sub1y"] = 0
+ new_piece["sub2y"] = 0
+ new_piece["sub3y"] = 0
+ new_piece["sub4y"] = 0
+ new_piece["piece_type"] = theType
+ new_piece["boardx"] = 10
+ new_piece["boardy"] = 2
+ new_piece["num_rotations"] = 5
+ new_piece = rotate(new_piece)
+ return new_piece
+
+
+end
 
 function rotate(piece) 
 	if (piece.piece_type == "i") then
